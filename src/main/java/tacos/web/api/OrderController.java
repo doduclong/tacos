@@ -12,38 +12,38 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import tacos.Taco;
-import tacos.data.TacoRepository;
+import tacos.Order;
+import tacos.data.OrderRepository;
 
 @RestController
 @RequestMapping(path = "/design", produces = "application/json")
 @CrossOrigin(origins = "*")
-public class DesignTacoController {
-	private TacoRepository tacoRepo;
+public class OrderController {
+	private OrderRepository orderRepo;
 	@Autowired
 	EntityLinks entityLinks;
 
-	public DesignTacoController(TacoRepository tacoRepo) {
-		this.tacoRepo = tacoRepo;
+	public OrderController(OrderRepository orderRepo) {
+		this.orderRepo = orderRepo;
 	}
 
 	@GetMapping("/recent")
-	public Iterable<Taco> recentTacos() {
-		return tacoRepo.findAll();
+	public Iterable<Order> recentOrders() {
+		return orderRepo.findAll();
 	}
 
 	@GetMapping("/{id}")
-	public Taco tacoById(@PathVariable("id") Long id) {
-		Optional<Taco> optTaco = tacoRepo.findById(id);
-		if (optTaco.isPresent()) {
-			return optTaco.get();
+	public Order orderById(@PathVariable("id") Long id) {
+		Optional<Order> optOrder = orderRepo.findById(id);
+		if (optOrder.isPresent()) {
+			return optOrder.get();
 		}
 		return null;
 	}
 
 	@PostMapping(consumes = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Taco postTaco(@RequestBody Taco taco) {
-		return tacoRepo.save(taco);
+	public Order postOrder(@RequestBody Order order) {
+		return orderRepo.save(order);
 	}
 }
